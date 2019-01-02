@@ -1,0 +1,252 @@
+{
+  "title": "4 - Handling Data",
+  "cells": [
+    {
+      "type": "text",
+      "data": "<h3>Adding Dynamic Data</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostList.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <section class=\"post-list\">\n    <PostPreview\n      v-for=\"post in posts\"\n      :key=\"post.id\"\n      ;id=\"post.id\"\n      :is-admin=\"isAdmin\"\n      :thumbnail=\"post.thumbnail\"\n      :title=\"post.title\"\n      :previewText = \"post.previewText\"/>\n  </section>\n</template>\n\n<script>\n  import PostPreview from \"@/components/Posts/PostPreview\";\n  export default {\n    components: {\n      PostPreview\n    },\n    props: {\n      isAdmin: {\n        type: Boolean,\n        default: false\n      },\n      posts: {\n        type: Array,\n        required: true\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .post-list {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <PostList :posts=\"loadedPosts\"/>\n  </div>\n</template>\n\n<script>\nimport PostPreview from \"@/components/Posts/PostPreview\";\nimport PostList from \"@/components/Posts/PostList\";\n\nexport default {\n  components: {\n    PostList,\n    PostPreview: PostPreview\n  },\n  data() {\n    return {\n      loadedPosts: [\n        {\n        id:'1',\n        title: 'First Post',\n        previewText: 'This is our first post!',\n        thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n        },\n        {\n          id:'2',\n          title: 'Second Post',\n          previewText: 'This is our Second post!',\n          thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n        }\n      ]\n    }\n  }\n};\n</script>\n\n\n<style scoped>\n\n  .intro {\n    height: 300px;\n    position: relative;\n    padding: 30px;\n    box-sizing: border-box;\n    background-image: url('~assets/images/main-page-background.jpg');\n    background-position: center;\n    background-size: cover;\n  }\n\n  .intro h1 {\n    position: absolute;\n    top: 10%;\n    left: 5%;\n    width: 90%;\n    font-size: 1.5rem;\n    color: black;\n    background-color: rgb(211, 211, 211);\n    padding: 10px;\n    border-radius: 10px;\n    box-shadow: 3px 3px 3px black;\n    box-sizing: border-box;\n    border: 1px solid black;\n  }\n\n  @media (min-width: 768px) {\n    .intro h1 {\n      font-size: 2rem;\n    }\n  }\n\n  .featured-posts {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Preparing Data on the Server-Side&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <PostList :posts=\"loadedPosts\"/>\n  </div>\n</template>\n\n<script>\nimport PostList from \"@/components/Posts/PostList\";\n\nexport default {\n  components: {\n    PostList\n  },\n  asyncData(context, callback) {\n    setTimeout(() => {\n      callback(null, {\n        loadedPosts: [\n          {\n            id:'1',\n            title: 'First Post',\n            previewText: 'This is our first post!',\n            thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n          },\n          {\n            id:'2',\n            title: 'Second Post',\n            previewText: 'This is our Second post!',\n            thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n          }\n        ]\n      });\n    }, 1500);\n  },\n  created(){}\n};\n</script>\n\n\n<style scoped>\n\n  .intro {\n    height: 300px;\n    position: relative;\n    padding: 30px;\n    box-sizing: border-box;\n    background-image: url('~assets/images/main-page-background.jpg');\n    background-position: center;\n    background-size: cover;\n  }\n\n  .intro h1 {\n    position: absolute;\n    top: 10%;\n    left: 5%;\n    width: 90%;\n    font-size: 1.5rem;\n    color: black;\n    background-color: rgb(211, 211, 211);\n    padding: 10px;\n    border-radius: 10px;\n    box-shadow: 3px 3px 3px black;\n    box-sizing: border-box;\n    border: 1px solid black;\n  }\n\n  @media (min-width: 768px) {\n    .intro h1 {\n      font-size: 2rem;\n    }\n  }\n\n  .featured-posts {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding Async Data to a Single Post</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/_id/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"single-post-page\">\n        <section class=\"post\">\n            <h1 class=\"post-title\">{{ loadedPost.title }}</h1>\n            <div class=\"post-details\">\n                <div class=\"post-detail\">Last updated on {{ loadedPost.updatedDate }}</div>\n                <div class=\"post-detail\">Written by {{ loadedPost.author }}</div>\n            </div>\n            <p class=\"post-content\">{{ loadedPost.content }}</p>\n        </section>\n        <section class=\"post-feedback\">\n            <p>\n                Let me know what you think about the post, send a mail to <a href=\"mailto:feedback@my-awesome-domain.com\">feedback@my-awesome-domain.com</a>.\n            </p>\n        </section>\n    </div>\n</template>\n\n<script>\n  export default {\n    asyncData(context, callback) {\n      setTimeout(() => {\n        callback(null, {\n          loadedPost: {\n            id: '1',\n            title: 'First Post (ID:' + context.params.id + ')',\n            previewText: 'This is our first post!',\n            author: 'Mer',\n            updatedDate: new Date(),\n            content: 'Some dummy text which is definitely not the preview text though',\n            thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n          }\n        })\n      }, 1000)\n    }\n  }\n</script>\n\n<style scoped>\n.single-post-page {\n  padding: 30px;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.post {\n  width: 100%;\n}\n\n@media (min-width: 768px) {\n  .post {\n    width: 600px;\n    margin: auto;\n  }\n}\n\n.post-title {\n  margin: 0;\n}\n\n.post-details {\n  padding: 10px;\n  box-sizing: border-box;\n  border-bottom: 3px solid #ccc;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n@media (min-width: 768px) {\n  .post-details {\n    flex-direction: row;\n  }\n}\n\n.post-detail {\n  color: rgb(88, 88, 88);\n  margin: 0 10px;\n}\n\n.post-feedback a {\n  color: red;\n  text-decoration: none;\n}\n\n.post-feedback a:hover,\n.post-feedback a:active {\n  color: salmon;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Handling Errors with a Callback</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    components: {\n      PostList\n    },\n    asyncData(context, callback) {\n      setTimeout(() => {\n        callback(new Error(), {\n          loadedPosts: [\n            {\n              id: '1',\n              title: 'First Post',\n              previewText: 'This is our first post!',\n              thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n            },\n            {\n              id: '2',\n              title: 'Second Post',\n              previewText: 'This is our Second post!',\n              thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n            }\n          ]\n        });\n      }, 1000);\n    }\n  }\n</script>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    components: {\n      PostList\n    },\n    asyncData(context, callback) {\n      return new Promise().catch(e => {\n        context.error(new Error())\n      })\n      setTimeout(() => {\n        callback(null, {\n          loadedPosts: [\n            {\n              id: '1',\n              title: 'First Post',\n              previewText: 'This is our first post!',\n              thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n            },\n            {\n              id: '2',\n              title: 'Second Post',\n              previewText: 'This is our Second post!',\n              thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n            }\n          ]\n        });\n      }, 1000);\n    }\n  }\n</script>\n"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Using Promises in asyncData</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    components: {\n      PostList\n    },\n    asyncData(context) {\n\n      return new Promise((resolve, reject) => {\n        setTimeout(() => {\n          resolve({\n            loadedPosts: [\n              {\n                id: '1',\n                title: 'First Post',\n                previewText: 'This is our first post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              },\n              {\n                id: '2',\n                title: 'Second Post',\n                previewText: 'This is our Second post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              }\n            ]\n          });\n        }, 1000);\n      })\n        .then(data => {\n          return data\n        })\n    }\n  }\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "For error code block"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    components: {\n      PostList\n    },\n    asyncData(context) {\n      return new Promise((resolve, reject) => {\n        /*setTimeout(() => {\n          resolve({\n            loadedPosts: [\n              {\n                id: '1',\n                title: 'First Post',\n                previewText: 'This is our first post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              },\n              {\n                id: '2',\n                title: 'Second Post',\n                previewText: 'This is our Second post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              }\n            ]\n          });\n        }, 1000);*/\n        // for error code block\n        reject(new Error())\n      })\n        .then(data => {\n          return data\n        })\n        .catch(e => {\n          context.error(e);\n        })\n    }\n  }\n</script>\n"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding the Vuex Store&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/7781DC5D08AF45E27D47D19730F78774.png\" alt=\"IMG_0249.PNG\" width=\"2732\" height=\"2048\">"
+    },
+    {
+      "type": "text",
+      "data": "/store/index.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vuex from 'vuex'\n\nconst createStore = () => {\n  return new Vuex.Store({\n    state: {\n      loadedPosts:[]\n    },\n    mutations: {\n      setPosts(state, posts) {\n       state.loadedPosts = posts\n      }\n    },\n    actions: {\n      nuxtServerInit(vuexContext, context) {\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            vuexContext.commit(\"setPosts\", [\n              {\n                id: '1',\n                title: 'First Post',\n                previewText: 'This is our first post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              },\n              {\n                id: '2',\n                title: 'Second Post',\n                previewText: 'This is our Second post!',\n                thumbnail: 'http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg'\n              }\n            ]);\n            resolve();\n          }, 1000);\n        });\n      },\n      setPosts(vuexContext, posts) {\n        vuexContext.commit('setPosts', posts)\n      }\n    },\n    getters: {\n      loadedPosts(state) {\n        return state.loadedPosts\n      }\n    }\n  });\n};\n\nexport default createStore;"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    components: {\n      PostList\n    },\n    computed: {\n      loadedPosts() {\n        return this.$store.getters.loadedPosts\n      }\n    }\n  };\n</script>\n\n<style scoped>\n  .posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <PostList :posts=\"loadedPosts\"/>\n  </div>\n</template>\n\n<script>\nimport PostList from \"@/components/Posts/PostList\";\n\nexport default {\n  components: {\n    PostList\n  },\n  computed: {\n    loadedPosts() {\n      return this.$store.getters.loadedPosts\n    }\n  },\n  created(){}\n};\n</script>\n\n\n<style scoped>\n\n  .intro {\n    height: 300px;\n    position: relative;\n    padding: 30px;\n    box-sizing: border-box;\n    background-image: url('~assets/images/main-page-background.jpg');\n    background-position: center;\n    background-size: cover;\n  }\n\n  .intro h1 {\n    position: absolute;\n    top: 10%;\n    left: 5%;\n    width: 90%;\n    font-size: 1.5rem;\n    color: black;\n    background-color: rgb(211, 211, 211);\n    padding: 10px;\n    border-radius: 10px;\n    box-shadow: 3px 3px 3px black;\n    box-sizing: border-box;\n    border: 1px solid black;\n  }\n\n  @media (min-width: 768px) {\n    .intro h1 {\n      font-size: 2rem;\n    }\n  }\n\n  .featured-posts {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}
