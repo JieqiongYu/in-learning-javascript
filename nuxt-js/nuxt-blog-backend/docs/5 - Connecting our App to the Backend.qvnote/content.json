@@ -30,6 +30,32 @@
     },
     {
       "type": "text",
+      "data": "<h3>Fetching Data from the Backend</h3>"
+    },
+    {
+      "type": "text",
+      "data": "store/index.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vuex from 'vuex';\nimport axios from 'axios';\n\n\nconst createStore = () => {\n  return new Vuex.Store({\n    state: {\n      loadedPosts:[]\n    },\n    mutations: {\n      setPosts(state, posts) {\n       state.loadedPosts = posts\n      }\n    },\n    actions: {\n      nuxtServerInit(vuexContext, context) {\n        return axios.get('https://nuxt-blog-e0eef.firebaseio.com/posts.json')\n          .then(res => {\n            const postsArray =[]\n            for (const key in res.data) {\n              postsArray.push( { ...res.data[key], id:key })\n            }\n            vuexContext.commit('setPosts', postsArray)\n          })\n          .catch(e => context.error(e));\n      },\n      setPosts(vuexContext, posts) {\n        vuexContext.commit('setPosts', posts)\n      }\n    },\n    getters: {\n      loadedPosts(state) {\n        return state.loadedPosts\n      }\n    }\n  });\n};\n\nexport default createStore;"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Initializing Our Store</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Admin/AdminPostForm.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <form @submit.prevent=\"onSave\">\n    <AppControlInput v-model=\"editedPost.author\">Author Name</AppControlInput>\n    <AppControlInput v-model=\"editedPost.title\">Title</AppControlInput>\n    <AppControlInput v-model=\"editedPost.thumbnail\">Thumbnail Link</AppControlInput>\n    <AppControlInput control-type=\"textarea\" v-model=\"editedPost.content\">Content</AppControlInput>\n    <AppControlInput control-type=\"textarea\" v-model=\"editedPost.previewText\">Preview Text</AppControlInput>\n    <AppButton type=\"submit\">Save</AppButton>\n    <AppButton type=\"button\" style=\"margin-left: 10px\" btn-style=\"cancel\" @click=\"onCancel\">Cancel</AppButton>\n  </form>\n</template>\n\n<script>\n  import AppControlInput from '@/components/UI/AppControlInput'\n  import AppButton from '@/components/UI/AppButton'\n\n\n  export default {\n    components: {\n      AppControlInput,\n      AppButton\n    },\n    props: {\n      post: {\n        type: Object,\n        required: false\n      }\n    },\n    data() {\n      return {\n        editedPost: this.post ? { ...this.post} : {\n          author: '',\n          title: '',\n          thumbnail: '',\n          content: '',\n          previewText: ''\n        }\n      };\n    },\n    methods: {\n      onSave() {\n        // Save the post\n        this.$emit('submit', this.editedPost);\n      },\n      onCancel() {\n        // Navigate back\n        this.$router.push('/admin');\n      }\n    }\n  }\n</script>"
+    },
+    {
+      "type": "text",
       "data": ""
     },
     {
