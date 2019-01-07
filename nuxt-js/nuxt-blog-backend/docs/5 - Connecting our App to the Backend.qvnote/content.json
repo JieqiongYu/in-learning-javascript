@@ -109,6 +109,41 @@
     },
     {
       "type": "text",
+      "data": "<h3>Synchronizing Vuex and the Backend</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/_postId/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-post-page\">\n    <section class=\"update-form\">\n      <AdminPostForm :post=\"loadedPost\" @submit=\"onSubmitted\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport AdminPostForm from '@/components/Admin/AdminPostForm';\nimport axios from 'axios';\n\nexport default {\n  layout: 'admin',\n  components: {\n    AdminPostForm\n  },\n  asyncData(context) {\n    return axios\n      .get('https://nuxt-blog-e0eef.firebaseio.com/posts/' +\n      context.params.postId +\n      '.json')\n      .then(res => {\n        return {\n          loadedPost: {...res.data, id: context.params.postId}\n        }\n      })\n      .catch(e => context.error());\n  },\n  methods: {\n    onSubmitted(editedPost) {\n      this.$store.dispatch('editPost', editedPost)\n        .then(() => {\n          this.$router.push(\"/admin\")\n        })\n    }\n  }\n}\n</script>\n\n<style scoped>\n  .update-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .update-form {\n      width: 500px;\n    }\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/new-post/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-new-post-page\">\n    <section class=\"new-post-form\">\n      <AdminPostForm @submit=\"onSubmitted\"/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import axios from 'axios'\n  import AdminPostForm from \"@/components/Admin/AdminPostForm\";\n\nexport default{\n  layout: 'admin',\n  components: {\n    AdminPostForm\n  },\n  methods: {\n    onSubmitted(postData) {\n      this.$store.dispatch('addPost', postData).then(() => {\n        this.$router.push(\"/admin\");\n      });\n    }\n  }\n};\n</script>\n\n<style scoped>\n  .new-post-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .new-post-form {\n      width: 500px;\n    }\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/store/index.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vuex from 'vuex';\nimport axios from 'axios';\n\n\nconst createStore = () => {\n  return new Vuex.Store({\n    state: {\n      loadedPosts:[]\n    },\n    mutations: {\n      setPosts(state, posts) {\n       state.loadedPosts = posts\n      },\n      addPost(state, post) {\n        state.loadedPosts.push(post)\n      },\n      editPost(state, editedPost) {\n        const postIndex = state.loadedPosts.findIndex(\n          post => post.id === editedPost.id\n        );\n        state.loadedPosts[postIndex] = editedPost\n      }\n    },\n    actions: {\n      nuxtServerInit(vuexContext, context) {\n        return axios.get('https://nuxt-blog-e0eef.firebaseio.com/posts.json')\n          .then(res => {\n            const postsArray =[]\n            for (const key in res.data) {\n              postsArray.push( { ...res.data[key], id:key })\n            }\n            vuexContext.commit('setPosts', postsArray)\n          })\n          .catch(e => context.error(e));\n      },\n      addPost(vuexContext, post) {\n        const createdPost = {\n          ...post,\n          updatedDate: new Date()\n        }\n        return axios.post('https://nuxt-blog-e0eef.firebaseio.com/posts.json', createdPost)\n          .then(result => {\n            vuexContext.commit('addPost', {...createdPost, id: result.data.name})\n          })\n          .catch(e => console.log(e));\n      },\n      editPost(vuexContext, editedPost) {\n        return axios.put('https://nuxt-blog-e0eef.firebaseio.com/posts/' +\n          editedPost.id +\n          '.json', editedPost)\n          .then(res => {\n            vuexContext.commit('editPost', editedPost);\n          })\n          .catch(e => console.log(e))\n      },\n      setPosts(vuexContext, posts) {\n        vuexContext.commit('setPosts', posts)\n      }\n    },\n    getters: {\n      loadedPosts(state) {\n        return state.loadedPosts\n      }\n    }\n  });\n};\n\nexport default createStore;"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
       "data": ""
     },
     {
