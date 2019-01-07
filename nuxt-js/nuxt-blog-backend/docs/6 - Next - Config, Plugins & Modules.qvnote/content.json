@@ -103,7 +103,52 @@
     },
     {
       "type": "text",
-      "data": ""
+      "data": "<h3>Understanding Modules</h3>"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li><a href=\"https://github.com/nuxt-community/modules\">https://github.com/nuxt-community/modules</a><br></li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "sh",
+      "data": "$ npm install --save @nuxtjs/axios"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n    '~plugins/core-components.js',\n    '~plugins/date-filter.js'\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n    '@nuxtjs/axios',\n  ],\n  axios: {\n    baseURL: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  },\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  },\n  env: {\n    fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": "/store/index.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vuex from 'vuex';\n\n\nconst createStore = () => {\n  return new Vuex.Store({\n    state: {\n      loadedPosts:[]\n    },\n    mutations: {\n      setPosts(state, posts) {\n       state.loadedPosts = posts\n      },\n      addPost(state, post) {\n        state.loadedPosts.push(post)\n      },\n      editPost(state, editedPost) {\n        const postIndex = state.loadedPosts.findIndex(\n          post => post.id === editedPost.id\n        );\n        state.loadedPosts[postIndex] = editedPost\n      }\n    },\n    actions: {\n      nuxtServerInit(vuexContext, context) {\n        return context.app.$axios.\n          $get('/posts.json')\n          .then(data => {\n            const postsArray =[]\n            for (const key in data) {\n              postsArray.push( { ...data[key], id:key })\n            }\n            vuexContext.commit('setPosts', postsArray)\n          })\n          .catch(e => context.error(e));\n      },\n      addPost(vuexContext, post) {\n        const createdPost = {\n          ...post,\n          updatedDate: new Date()\n        }\n        return this.$axios.$post('/posts.json', createdPost)\n          .then(data => {\n            vuexContext.commit('addPost', {...createdPost, id: data.name})\n          })\n          .catch(e => console.log(e));\n      },\n      editPost(vuexContext, editedPost) {\n        return this.$axios.$put('/posts/' +\n          editedPost.id +\n          '.json', editedPost)\n          .then(res => {\n            vuexContext.commit('editPost', editedPost);\n          })\n          .catch(e => console.log(e))\n      },\n      setPosts(vuexContext, posts) {\n        vuexContext.commit('setPosts', posts)\n      }\n    },\n    getters: {\n      loadedPosts(state) {\n        return state.loadedPosts\n      }\n    }\n  });\n};\n\nexport default createStore;"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/_postId/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "sh",
+      "data": "<template>\n  <div class=\"admin-post-page\">\n    <section class=\"update-form\">\n      <AdminPostForm :post=\"loadedPost\" @submit=\"onSubmitted\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport AdminPostForm from '@/components/Admin/AdminPostForm';\n\nexport default {\n  layout: 'admin',\n  components: {\n    AdminPostForm\n  },\n  asyncData(context) {\n    return context.app.$axios\n      .$get('/posts/' +\n      context.params.postId +\n      '.json')\n      .then(data => {\n        return {\n          loadedPost: {...data, id: context.params.postId}\n        }\n      })\n      .catch(e => context.error());\n  },\n  methods: {\n    onSubmitted(editedPost) {\n      this.$store.dispatch('editPost', editedPost)\n        .then(() => {\n          this.$router.push(\"/admin\")\n        })\n    }\n  }\n}\n</script>\n\n<style scoped>\n  .update-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .update-form {\n      width: 500px;\n    }\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/_id/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"single-post-page\">\n        <section class=\"post\">\n            <h1 class=\"post-title\">{{ loadedPost.title }}</h1>\n            <div class=\"post-details\">\n                <div class=\"post-detail\">Last updated on {{ loadedPost.updatedDate | date }}</div>\n                <div class=\"post-detail\">Written by {{ loadedPost.author }}</div>\n            </div>\n            <p class=\"post-content\">{{ loadedPost.content }}</p>\n        </section>\n        <section class=\"post-feedback\">\n            <p>\n                Let me know what you think about the post, send a mail to <a href=\"mailto:feedback@my-awesome-domain.com\">feedback@my-awesome-domain.com</a>.\n            </p>\n        </section>\n    </div>\n</template>\n\n<script>\nimport axios from 'axios'\n\nexport default {\n  asyncData(context) {\n    return context.app.$axios.\n    $get('/posts/' + context.params.id + '.json')\n      .then(data => {\n        return {\n          loadedPost: data\n        }\n      })\n      .catch(e => context.error(e))\n  },\n  head: {\n    title: 'A Blog Post'\n  }\n}\n</script>\n\n<style scoped>\n.single-post-page {\n  padding: 30px;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.post {\n  width: 100%;\n}\n\n@media (min-width: 768px) {\n  .post {\n    width: 600px;\n    margin: auto;\n  }\n}\n\n.post-title {\n  margin: 0;\n}\n\n.post-details {\n  padding: 10px;\n  box-sizing: border-box;\n  border-bottom: 3px solid #ccc;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n@media (min-width: 768px) {\n  .post-details {\n    flex-direction: row;\n  }\n}\n\n.post-detail {\n  color: rgb(88, 88, 88);\n  margin: 0 10px;\n}\n\n.post-feedback a {\n  color: red;\n  text-decoration: none;\n}\n\n.post-feedback a:hover,\n.post-feedback a:active {\n  color: salmon;\n}\n</style>"
     },
     {
       "type": "text",
