@@ -20,6 +20,32 @@
     },
     {
       "type": "text",
+      "data": "<h3>Working with Environment Variables</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n  ],\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  },\n  env: {\n    fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": "/store/index.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vuex from 'vuex';\nimport axios from 'axios';\n\n\nconst createStore = () => {\n  return new Vuex.Store({\n    state: {\n      loadedPosts:[]\n    },\n    mutations: {\n      setPosts(state, posts) {\n       state.loadedPosts = posts\n      },\n      addPost(state, post) {\n        state.loadedPosts.push(post)\n      },\n      editPost(state, editedPost) {\n        const postIndex = state.loadedPosts.findIndex(\n          post => post.id === editedPost.id\n        );\n        state.loadedPosts[postIndex] = editedPost\n      }\n    },\n    actions: {\n      nuxtServerInit(vuexContext, context) {\n        return axios.get(process.env.fireBaseUrl + '/posts.json')\n          .then(res => {\n            const postsArray =[]\n            for (const key in res.data) {\n              postsArray.push( { ...res.data[key], id:key })\n            }\n            vuexContext.commit('setPosts', postsArray)\n          })\n          .catch(e => context.error(e));\n      },\n      addPost(vuexContext, post) {\n        const createdPost = {\n          ...post,\n          updatedDate: new Date()\n        }\n        return axios.post(process.env.fireBaseUrl + '/posts.json', createdPost)\n          .then(result => {\n            vuexContext.commit('addPost', {...createdPost, id: result.data.name})\n          })\n          .catch(e => console.log(e));\n      },\n      editPost(vuexContext, editedPost) {\n        return axios.put(process.env.fireBaseUrl + '/posts/' +\n          editedPost.id +\n          '.json', editedPost)\n          .then(res => {\n            vuexContext.commit('editPost', editedPost);\n          })\n          .catch(e => console.log(e))\n      },\n      setPosts(vuexContext, posts) {\n        vuexContext.commit('setPosts', posts)\n      }\n    },\n    getters: {\n      loadedPosts(state) {\n        return state.loadedPosts\n      }\n    }\n  });\n};\n\nexport default createStore;"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
       "data": ""
     },
     {
