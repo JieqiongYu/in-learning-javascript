@@ -16,6 +16,7 @@
   import PostList from "@/components/Posts/PostList";
 
   export default {
+    middleware: 'log',
     components: {
       PostList
     },

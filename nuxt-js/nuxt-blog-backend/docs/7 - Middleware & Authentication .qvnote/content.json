@@ -1,0 +1,53 @@
+{
+  "title": "7 - Middleware & Authentication ",
+  "cells": [
+    {
+      "type": "text",
+      "data": "<h3>What is Middleware?&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "Middleware code is executed before the page loads, and it could be located in the following places"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Specific Page</li><ul><li>/pages/posts/index.vue</li></ul><li>Layout</li><ul><li>/layouts/default.vue</li></ul><li>Global configuration file</li><ul><li>/nuxt.config.js</li></ul></ul>"
+    },
+    {
+      "type": "text",
+      "data": "/middleware/log.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "export default function(context) {\n  console.log('[Middleware] The Log Middleware is running')\n}"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList :posts=\"loadedPosts\"/>\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n\n  export default {\n    middleware: 'log',\n    components: {\n      PostList\n    },\n    computed: {\n      loadedPosts() {\n        return this.$store.getters.loadedPosts\n      }\n    }\n  };\n</script>\n\n<style scoped>\n  .posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/default.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <TheHeader @sidenavToggle=\"displaySidenav = !displaySidenav\" />\n    <TheSidenav :show=\"displaySidenav\" @close=\"displaySidenav = false\" />\n    <nuxt/>\n  </div>\n</template>\n\n\n<script>\n  import TheHeader from '@/components/Navigation/TheHeader'\n  import TheSidenav from '@/components/Navigation/TheSidenav'\n  export default {\n    middleware: 'log',\n    components: {\n      TheHeader,\n      TheSidenav\n    },\n    data() {\n      return {\n        displaySidenav: false\n      }\n    }\n  }\n</script>\n\n<style>\n  html {\n    font-family: 'Open Sans', sans-serif;\n  }\n\n  body {\n    margin: 0;\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n    '~plugins/core-components.js',\n    '~plugins/date-filter.js'\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n    '@nuxtjs/axios',\n  ],\n  axios: {\n    baseURL: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  },\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  },\n  env: {\n    fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  },\n  router: {\n    middleware: 'log'\n  }\n}\n"
+    }
+  ]
+}

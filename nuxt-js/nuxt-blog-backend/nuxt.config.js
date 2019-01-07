@@ -61,5 +61,8 @@ module.exports = {
   },
   env: {
     fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'
+  },
+  router: {
+    middleware: 'log'
   }
 }
