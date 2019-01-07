@@ -42,6 +42,32 @@
     },
     {
       "type": "text",
+      "data": "<h3>Adding Plugins</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/plugins/core-components.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vue from 'vue'\n\nimport AppButton from '@/components/UI/AppButton'\nimport AppControlInput from '@/components/UI/AppControlInput'\nimport PostList from \"@/components/Posts/PostList\"\n\nVue.component('AppButton', AppButton)\nVue.component('AppControlInput', AppControlInput)\nVue.component('PostList', PostList)"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n    '~plugins/core-components.js'\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n  ],\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  },\n  env: {\n    fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": "Remove all the import items in core-components.js from each file"
+    },
+    {
+      "type": "text",
       "data": ""
     },
     {
