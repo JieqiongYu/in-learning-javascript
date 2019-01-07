@@ -68,7 +68,38 @@
     },
     {
       "type": "text",
-      "data": ""
+      "data": "<h3>Registering a Date Filter</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/plugins/date-filter.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "import Vue from 'vue'\n\nconst months = [\n  \"January\",\n  \"February\",\n  \"March\",\n  \"April\",\n  \"May\",\n  \"June\",\n  \"July\",\n  \"August\",\n  \"September\",\n  \"October\",\n  \"November\",\n  \"December\"\n];\n\nconst dateFilter = value => {\n  return formatDate(value);\n}\n\nfunction formatDate(inputDate) {\n  const date = new Date(inputDate);\n  const year = date.getFullYear();\n  const month = date.getMonth();\n  const day = date.getDate();\n  const formattedDate = day + \". \" + months[month] + \" \"+ year;\n  return formattedDate;\n}\n\nVue.filter('date', dateFilter)\n"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n    '~plugins/core-components.js',\n    '~plugins/date-filter.js'\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n  ],\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  },\n  env: {\n    fireBaseUrl: process.env.FIRE_BASE_URL || 'https://nuxt-blog-e0eef.firebaseio.com'\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/_id/index.vue"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 6</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"single-post-page\">\n        <section class=\"post\">\n            <h1 class=\"post-title\">{{ loadedPost.title }}</h1>\n            <div class=\"post-details\">\n                <div class=\"post-detail\">Last updated on {{ loadedPost.updatedDate | date}}</div>\n                <div class=\"post-detail\">Written by {{ loadedPost.author }}</div>\n            </div>\n            <p class=\"post-content\">{{ loadedPost.content }}</p>\n        </section>\n        <section class=\"post-feedback\">\n            <p>\n                Let me know what you think about the post, send a mail to <a href=\"mailto:feedback@my-awesome-domain.com\">feedback@my-awesome-domain.com</a>.\n            </p>\n        </section>\n    </div>\n</template>\n\n<script>\nimport axios from 'axios'\n\nexport default {\n  asyncData(context) {\n    return axios.get('https://nuxt-blog-e0eef.firebaseio.com/posts/' + context.params.id + '.json')\n      .then(res => {\n        return {\n          loadedPost: res.data\n        }\n      })\n      .catch(e => context.error(e))\n  },\n  head: {\n    title: 'A Blog Post'\n  }\n}\n</script>\n\n<style scoped>\n.single-post-page {\n  padding: 30px;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.post {\n  width: 100%;\n}\n\n@media (min-width: 768px) {\n  .post {\n    width: 600px;\n    margin: auto;\n  }\n}\n\n.post-title {\n  margin: 0;\n}\n\n.post-details {\n  padding: 10px;\n  box-sizing: border-box;\n  border-bottom: 3px solid #ccc;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n@media (min-width: 768px) {\n  .post-details {\n    flex-direction: row;\n  }\n}\n\n.post-detail {\n  color: rgb(88, 88, 88);\n  margin: 0 10px;\n}\n\n.post-feedback a {\n  color: red;\n  text-decoration: none;\n}\n\n.post-feedback a:hover,\n.post-feedback a:active {\n  color: salmon;\n}\n</style>\n"
     },
     {
       "type": "text",
