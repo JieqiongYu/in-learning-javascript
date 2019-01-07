@@ -78,6 +78,41 @@
     },
     {
       "type": "text",
+      "data": "<h3>Editing Posts</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/_postId/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-post-page\">\n    <section class=\"update-form\">\n      <AdminPostForm :post=\"loadedPost\" @submit=\"onSubmitted\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport AdminPostForm from '@/components/Admin/AdminPostForm';\nimport axios from 'axios';\n\nexport default {\n  layout: 'admin',\n  components: {\n    AdminPostForm\n  },\n  asyncData(context) {\n    return axios\n      .get('https://nuxt-blog-e0eef.firebaseio.com/posts/' +\n      context.params.postId +\n      '.json')\n      .then(res => {\n        return {\n          loadedPost: res.data\n        }\n      })\n      .catch(e => context.error());\n  },\n  methods: {\n    onSubmitted(editedPost) {\n      axios.put('https://nuxt-blog-e0eef.firebaseio.com/posts/' +\n        this.$route.params.postId +\n        '.json', editedPost)\n        .then(res => {\n          this.$router.push('/admin')\n        })\n        .catch(e => console.log(e))\n    }\n  }\n}\n</script>\n\n<style scoped>\n  .update-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .update-form {\n      width: 500px;\n    }\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/new-post/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-new-post-page\">\n    <section class=\"new-post-form\">\n      <AdminPostForm @submit=\"onSubmitted\"/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import axios from 'axios'\n  import AdminPostForm from \"@/components/Admin/AdminPostForm\";\n\nexport default{\n  layout: 'admin',\n  components: {\n    AdminPostForm\n  },\n  methods: {\n    onSubmitted(postData) {\n      axios.post('https://nuxt-blog-e0eef.firebaseio.com/posts.json', {\n        ...postData,\n        updatedDate: new Date()\n      })\n        .then(result => {\n          this.$router.push('/admin')\n        })\n        .catch(e => console.log(e));\n    }\n  }\n};\n</script>\n\n<style scoped>\n  .new-post-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .new-post-form {\n      width: 500px;\n    }\n  }\n</style>\n"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-page\">\n    <section class=\"new-post\">\n      <AppButton @click=\"$router.push('/admin/new-post')\">Create Post</AppButton>\n    </section>\n    <section class=\"existing-posts\">\n      <h1>Existing Posts</h1>\n      <PostList isAdmin :posts=\"loadedPosts\"/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import PostList from '@/components/Posts/PostList'\n  import AppButton from '@/components/UI/AppButton'\n\n  export default {\n    layout: 'admin',\n    components: {\n      PostList,\n      AppButton\n    },\n    computed: {\n      loadedPosts() {\n        return this.$store.getters.loadedPosts\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .admin-page {\n    padding: 20px;\n  }\n\n  .new-post {\n    text-align: center;\n    border-bottom: 2px solid #ccc;\n    padding-bottom: 10px;\n  }\n\n  .existing-posts h1 {\n    text-align: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
       "data": ""
     },
     {

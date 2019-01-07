@@ -10,7 +10,7 @@
   export default {
     name: 'AppButton',
     props: {
-      bynStyle: {
+      btnStyle: {
         type: String,
         default: ''
       }
