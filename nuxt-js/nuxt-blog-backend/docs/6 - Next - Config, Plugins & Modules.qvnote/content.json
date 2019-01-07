@@ -1,0 +1,30 @@
+{
+  "title": "6 - Next - Config, Plugins & Modules",
+  "cells": [
+    {
+      "type": "text",
+      "data": "<h3>The Nuxt Config File</h3>"
+    },
+    {
+      "type": "text",
+      "data": "How to override the global config in nuxt.config.js in one specific file&nbsp;"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/_id/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"single-post-page\">\n        <section class=\"post\">\n            <h1 class=\"post-title\">{{ loadedPost.title }}</h1>\n            <div class=\"post-details\">\n                <div class=\"post-detail\">Last updated on {{ loadedPost.updatedDate }}</div>\n                <div class=\"post-detail\">Written by {{ loadedPost.author }}</div>\n            </div>\n            <p class=\"post-content\">{{ loadedPost.content }}</p>\n        </section>\n        <section class=\"post-feedback\">\n            <p>\n                Let me know what you think about the post, send a mail to <a href=\"mailto:feedback@my-awesome-domain.com\">feedback@my-awesome-domain.com</a>.\n            </p>\n        </section>\n    </div>\n</template>\n\n<script>\nimport axios from 'axios'\n\nexport default {\n  asyncData(context) {\n    return axios.get('https://nuxt-blog-e0eef.firebaseio.com/posts/' + context.params.id + '.json')\n      .then(res => {\n        return {\n          loadedPost: res.data\n        }\n      })\n      .catch(e => context.error(e))\n  },\n  head: {\n    title: 'A Blog Post'\n  }\n}\n</script>\n\n<style scoped>\n.single-post-page {\n  padding: 30px;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.post {\n  width: 100%;\n}\n\n@media (min-width: 768px) {\n  .post {\n    width: 600px;\n    margin: auto;\n  }\n}\n\n.post-title {\n  margin: 0;\n}\n\n.post-details {\n  padding: 10px;\n  box-sizing: border-box;\n  border-bottom: 3px solid #ccc;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n@media (min-width: 768px) {\n  .post-details {\n    flex-direction: row;\n  }\n}\n\n.post-detail {\n  color: rgb(88, 88, 88);\n  margin: 0 10px;\n}\n\n.post-feedback a {\n  color: red;\n  text-decoration: none;\n}\n\n.post-feedback a:hover,\n.post-feedback a:active {\n  color: salmon;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}
