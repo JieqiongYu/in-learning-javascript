@@ -20,9 +20,6 @@ export default {
     Logo
   },
   validate(data) {
-    console.log('Mer');
-    console.log(data);
-    // return data.params.id === '1'
     // check if the input is a valid number
     return /^\d+$/.test(data.params.id)
   }
