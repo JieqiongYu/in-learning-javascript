@@ -1,0 +1,459 @@
+{
+  "title": "3 - Module Introduction ",
+  "cells": [
+    {
+      "type": "text",
+      "data": "<h3>Creating the Main “Sections” (Pages)</h3>"
+    },
+    {
+      "type": "code",
+      "language": "sh",
+      "data": "$ create-nuxt-app nuxt-blog"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding External Fonts</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 18</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },\n      { rel: 'styleshhet', href: \"https://fonts.googleapis.com/css?family=Open+Sans\"}\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n  ],\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/default.vue"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 9</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <nuxt/>\n  </div>\n</template>\n\n<style>\nhtml {\n  font-family: 'Open Sans', sans-serif;\n}\n\nbody {\n  margin: 0;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Creating the Landing Page</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <section class=\"featured-posts\">\n      <PostPreview\n        id=\"1\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there!\"\n        previewText = \"This is my first post!\"/>\n      <PostPreview\n        id=\"2\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 2!\"\n        previewText = \"This is my second post!\"/>\n      <PostPreview\n        id=\"3\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 3!\"\n        previewText = \"This is my third post!\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport PostPreview from \"~/components/Posts/PostPreview\";\n\nexport default {\n  components: {\n    PostPreview: PostPreview\n  }\n};\n</script>\n\n\n<style scoped>\n.intro {\n  height: 300px;\n  position: relative;\n  padding: 30px;\n  box-sizing: border-box;\n  background-position: center;\n  background-size: cover;\n}\n\n.intro h1 {\n  position: absolute;\n  top: 10%;\n  left: 5%;\n  width: 90%;\n  font-size: 1.5rem;\n  color: black;\n  background-color: rgb(211, 211, 211);\n  padding: 10px;\n  border-radius: 10px;\n  box-shadow: 3px 3px 3px black;\n  box-sizing: border-box;\n  border: 1px solid black;\n}\n\n@media (min-width: 768px) {\n  .intro h1 {\n    font-size: 2rem;\n  }\n}\n\n.featured-posts {\n  display: flex;\n  padding: 20px;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n}\n\n.post-preview {\n  border: 1px solid #ccc;\n  box-shadow: 0 2px 2px #ccc;\n  background-color: white;\n  width: 90%;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n@media (min-width: 850px) {\n  .post-preview {\n    width: 400px;\n    margin: 10px;\n  }\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Splitting the Page into Components&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostPreview.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <section class=\"featured-posts\">\n      <PostPreview\n        id=\"1\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there!\"\n        previewText = \"This is my first post!\"/>\n      <PostPreview\n        id=\"2\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 2!\"\n        previewText = \"This is my second post!\"/>\n      <PostPreview\n        id=\"3\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 3!\"\n        previewText = \"This is my third post!\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport PostPreview from \"~/components/Posts/PostPreview\";\n\nexport default {\n  components: {\n    PostPreview: PostPreview\n  }\n};\n</script>\n\n\n<style scoped>\n.intro {\n  height: 300px;\n  position: relative;\n  padding: 30px;\n  box-sizing: border-box;\n  background-position: center;\n  background-size: cover;\n}\n\n.intro h1 {\n  position: absolute;\n  top: 10%;\n  left: 5%;\n  width: 90%;\n  font-size: 1.5rem;\n  color: black;\n  background-color: rgb(211, 211, 211);\n  padding: 10px;\n  border-radius: 10px;\n  box-shadow: 3px 3px 3px black;\n  box-sizing: border-box;\n  border: 1px solid black;\n}\n\n@media (min-width: 768px) {\n  .intro h1 {\n    font-size: 2rem;\n  }\n}\n\n.featured-posts {\n  display: flex;\n  padding: 20px;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n}\n\n.post-preview {\n  border: 1px solid #ccc;\n  box-shadow: 0 2px 2px #ccc;\n  background-color: white;\n  width: 90%;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n@media (min-width: 850px) {\n  .post-preview {\n    width: 400px;\n    margin: 10px;\n  }\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <nuxt-link :to=\"'/posts/' + id\">\n    <article class=\"post-preview\">\n      <div\n        class=\"post-thumbnail\"\n        :style=\"{backgroundImage: 'url(' + thumbnail + ')'}\">\n      </div>\n      <div class=\"post-content\">\n        <h1>{{ title }}</h1>\n        <p>{{ previewText }}</p>\n      </div>\n    </article>\n  </nuxt-link>\n</template>\n\n<script>\nexport default {\n    name: 'PostPreview',\n    props: {\n        id: {\n          type: String,\n          required: true\n        },\n        title: {\n          type: String,\n          required: true\n        },\n        previewText: {\n          type: String,\n          required: true\n        },\n        thumbnail: {\n          type: String,\n          required: true\n        }\n    }\n}\n</script>\n\n\n<style scoped>\n.post-thumbnail {\n  width: 100%;\n  height: 200px;\n  background-position: center;\n  background-size: cover;\n}\n\n.post-content {\n  padding: 10px;\n  text-align: center;\n}\n\na:hover .post-content,\na:active .post-content {\n  background-color: #ccc;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding Static Assets - The Background Image</h3>"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 43</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <section class=\"featured-posts\">\n      <PostPreview\n        id=\"1\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there!\"\n        previewText = \"This is my first post!\"/>\n      <PostPreview\n        id=\"2\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 2!\"\n        previewText = \"This is my second post!\"/>\n      <PostPreview\n        id=\"3\"\n        thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n        title=\"Hello there 3!\"\n        previewText = \"This is my third post!\"/>\n    </section>\n  </div>\n</template>\n\n<script>\nimport PostPreview from \"~/components/Posts/PostPreview\";\n\nexport default {\n  components: {\n    PostPreview: PostPreview\n  }\n};\n</script>\n\n\n<style scoped>\n.intro {\n  height: 300px;\n  position: relative;\n  padding: 30px;\n  box-sizing: border-box;\n  background-image:url('~assets/images/main-page-background.jpg');\n  background-position: center;\n  background-size: cover;\n}\n\n.intro h1 {\n  position: absolute;\n  top: 10%;\n  left: 5%;\n  width: 90%;\n  font-size: 1.5rem;\n  color: black;\n  background-color: rgb(211, 211, 211);\n  padding: 10px;\n  border-radius: 10px;\n  box-shadow: 3px 3px 3px black;\n  box-sizing: border-box;\n  border: 1px solid black;\n}\n\n@media (min-width: 768px) {\n  .intro h1 {\n    font-size: 2rem;\n  }\n}\n\n.featured-posts {\n  display: flex;\n  padding: 20px;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n}\n\n.post-preview {\n  border: 1px solid #ccc;\n  box-shadow: 0 2px 2px #ccc;\n  background-color: white;\n  width: 90%;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n@media (min-width: 850px) {\n  .post-preview {\n    width: 400px;\n    margin: 10px;\n  }\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding the Header Component</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Navigation/TheHeader.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"header-container\">\n    <header class=\"the-header\">\n      <TheSideNavToggle @toggle=\"$emit('sidenavToggle')\" />\n      <div class=\"logo\">\n        <nuxt-link to=\"/\">WD BLOG</nuxt-link>\n      </div>\n      <div class=\"spacer\"></div>\n      <div class=\"navigation-items\">\n        <ul class=\"nav-list\">\n          <li class=\"nav-item\"><nuxt-link to=\"/posts\">Blog</nuxt-link></li>\n          <li class=\"nav-item\"><nuxt-link to=\"/about\">About</nuxt-link></li>\n          <li class=\"nav-item\"><nuxt-link to=\"/admin\">Admin</nuxt-link></li>\n        </ul>\n      </div>\n    </header>\n  </div>\n</template>\n\n<script>\n  import TheSideNavToggle from \"~/components/Navigation/TheSideNavToggle\";\n\n  export default {\n    name: \"TheHeader\",\n    components: {\n      TheSideNavToggle\n    }\n  }\n</script>\n\n<style scoped>\n  .header-container {\n    height: 60px;\n  }\n\n  .the-header {\n    width: 100%;\n    position: fixed;\n    height: 60px;\n    display: flex;\n    justify-content: space-around;\n    align-items: center;\n    background-color: black;\n    z-index: 100;\n    box-sizing: border-box;\n    padding: 0 20px;\n  }\n\n  .logo {\n    margin: 0 10px;\n    font-size: 1.3rem;\n  }\n\n  .logo a {\n    text-decoration: none;\n    color: white;\n  }\n\n  .spacer {\n    flex: 1;\n  }\n\n  .navigation-items {\n    display: none;\n  }\n\n  @media (min-width: 768px) {\n    .navigation-items {\n      display: block;\n    }\n  }\n\n  .nav-list {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    display: flex;\n  }\n\n  .nav-item {\n    margin: 0 10px;\n  }\n\n  .nav-item a {\n    text-decoration: none;\n    color: white;\n  }\n\n  .nav-item a:hover,\n  .nav-item a:active,\n  .nav-item a.nuxt-link-active {\n    color: red;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Navigation/TheSidenav.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"sidenav-container\">\n    <div v-if=\"show\" class=\"sidenav-backdrop\" @click=\"$emit('close')\"></div>\n    <transition name=\"slide-side\">\n      <div v-if=\"show\" class=\"sidenav\">\n        <ul class=\"nav-list\" @click=\"$emit('close')\">\n          <li class=\"nav-item\"><nuxt-link to=\"/posts\">Blog</nuxt-link></li>\n          <li class=\"nav-item\"><nuxt-link to=\"/about\">About</nuxt-link></li>\n          <li class=\"nav-item\"><nuxt-link to=\"/admin\">Admin</nuxt-link></li>\n        </ul>\n      </div>\n    </transition>\n  </div>\n</template>\n\n<script>\n  export  default {\n    name: \"TheSidenav\",\n    props: {\n      show: {\n        type: Boolean,\n        default: false\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .sidenav-container {\n    height: 100%;\n    width: 100%;\n  }\n\n  .sidenav-backdrop {\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.7);\n    z-index: 1000;\n    position: fixed;\n    top: 0;\n    left: 0;\n  }\n\n  .sidenav {\n    height: 100%;\n    width: 300px;\n    background-color: white;\n    z-index: 10000;\n    position: fixed;\n    top: 0;\n    left: 0;\n    box-sizing: border-box;\n    padding: 30px;\n  }\n\n  .slide-side-enter-active,\n  .slide-side-leave-active {\n    transition: all 0.3s ease-out;\n  }\n  .slide-side-enter,\n  .slide-side-leave-to {\n    transform: translateX(-100%);\n  }\n\n  .nav-list {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n  }\n\n  .nav-item {\n    margin: 20px 0;\n  }\n\n  .nav-item a {\n    text-decoration: none;\n    color: black;\n    font-size: 1.5rem;\n  }\n\n  .nav-item a:hover,\n  .nav-item a:active {\n    color: red;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Navigation/TheSideNavToggle.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div\n    class=\"drawer-toggle\"\n    role=\"button\"\n    @click=\"$emit('toggle')\">\n    <div class=\"bar\"></div>\n    <div class=\"bar\"></div>\n    <div class=\"bar\"></div>\n  </div>\n</template>\n\n<style scoped>\n  .drawer-toggle {\n    display: flex;\n    flex-direction: column;\n    justify-content: space-around;\n    height: 50%;\n    width: 35px;\n    cursor: pointer;\n  }\n\n  @media (min-width: 768px) {\n    .drawer-toggle {\n      display: none;\n    }\n  }\n\n  .drawer-toggle .bar {\n    width: 90%;\n    height: 2px;\n    background-color: white;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/default.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <TheHeader @sidenavToggle=\"displaySidenav = !displaySidenav\" />\n    <TheSidenav :show=\"displaySidenav\" @close=\"displaySidenav = false\" />\n    <nuxt/>\n  </div>\n</template>\n\n\n<script>\n  import TheHeader from '@/components/Navigation/TheHeader'\n  import TheSidenav from '@/components/Navigation/TheSidenav'\n  export default {\n    components: {\n      TheHeader,\n      TheSidenav\n    },\n    data() {\n      return {\n        displaySidenav: false\n      }\n    }\n  }\n</script>\n\n<style>\n  html {\n    font-family: 'Open Sans', sans-serif;\n  }\n\n  body {\n    margin: 0;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Working on the Post Page</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostList.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <section class=\"post-list\">\n    <PostPreview\n      id=\"1\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there!\"\n      previewText = \"This is my first post!\"/>\n    <PostPreview\n      id=\"2\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there 2!\"\n      previewText = \"This is my second post!\"/>\n    <PostPreview\n      id=\"3\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there 3!\"\n      previewText = \"This is my third post!\"/>\n  </section>\n</template>\n\n<script>\n  import PostPreview from \"@/components/Posts/PostPreview\";\n  export default {\n    components: {PostPreview}\n  }\n</script>\n\n<style scoped>\n  .post-list {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"home-page\">\n    <section class=\"intro\">\n      <h1>Get the latest tech news!</h1>\n    </section>\n    <PostList />\n  </div>\n</template>\n\n<script>\nimport PostPreview from \"@/components/Posts/PostPreview\";\nimport PostList from \"@/components/Posts/PostList\";\n\nexport default {\n  components: {\n    PostList,\n    PostPreview: PostPreview\n  }\n};\n</script>\n\n\n<style scoped>\n.intro {\n  height: 300px;\n  position: relative;\n  padding: 30px;\n  box-sizing: border-box;\n  background-image:url('~assets/images/main-page-background.jpg');\n  background-position: center;\n  background-size: cover;\n}\n\n.intro h1 {\n  position: absolute;\n  top: 10%;\n  left: 5%;\n  width: 90%;\n  font-size: 1.5rem;\n  color: black;\n  background-color: rgb(211, 211, 211);\n  padding: 10px;\n  border-radius: 10px;\n  box-shadow: 3px 3px 3px black;\n  box-sizing: border-box;\n  border: 1px solid black;\n}\n\n@media (min-width: 768px) {\n  .intro h1 {\n    font-size: 2rem;\n  }\n}\n\n.featured-posts {\n  display: flex;\n  padding: 20px;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n}\n\n.post-preview {\n  border: 1px solid #ccc;\n  box-shadow: 0 2px 2px #ccc;\n  background-color: white;\n  width: 90%;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n@media (min-width: 850px) {\n  .post-preview {\n    width: 400px;\n    margin: 10px;\n  }\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <div class=\"posts-page\">\n      <PostList />\n    </div>\n</template>\n\n<style scoped>\n.posts-page {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n</style>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n  export default {\n    components: {PostList}\n  }\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Creating an Admin Section</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/UI/AppButton.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <button\n    class=\"button\"\n    :class=\"btnStyle\"\n    v-bind=\"$attrs\"\n    v-on=\"$listeners\"><slot /></button>\n</template>\n\n<script>\n  export default {\n    name: 'AppButton',\n    props: {\n      bynStyle: {\n        type: String,\n        default: ''\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .button {\n    font: inherit;\n    background-color: black;\n    color: white;\n    padding: 5px;\n    cursor: pointer;\n    border: 1px solid black;\n  }\n\n  .button:hover,\n  .button:active {\n    background-color: rgb(51, 51, 51);\n    border: 1px solid black;\n  }\n\n  .inverted {\n    background-color: white;\n    color: black;\n    border: 1px solid transparent;\n  }\n\n  .inverted:hover,\n  .inverted:active {\n    color: #ccc;\n    background-color: white;\n    border: 1px solid transparent;\n  }\n\n  .cancel {\n    background-color: red;\n    color: white;\n    border: 1px solid transparent;\n  }\n\n  .cancel:hover,\n  .cancel:active {\n    background-color: salmon;\n    border: 1px solid transparent;\n    color: white;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/components/UI/AppControlInput.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"input-control\">\n    <label><slot /></label>\n    <input\n      v-if=\"controlType === 'input'\"\n      v-bind=\"$attrs\"\n      :value=\"value\"\n      @input=\"$emit('input', $event.target.value)\">\n    <textarea\n      v-if=\"controlType === 'textarea'\"\n      rows=\"10\"\n      :value=\"value\"\n      @input=\"$emit('input', $event.target.value)\"></textarea>\n  </div>\n</template>\n\n<script>\n  export default {\n    name: 'AppInputControl',\n    props: {\n      controlType: {\n        type: String,\n        default: 'input'\n      },\n      value: {\n        type: String,\n        default: ''\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .input-control {\n    margin: 10px 0;\n  }\n\n  .input-control label {\n    display: block;\n    font-weight: bold;\n  }\n\n  .input-control input,\n  .input-control textarea {\n    display: block;\n    width: 100%;\n    box-sizing: border-box;\n    font: inherit;\n    border: 1px solid #ccc;\n    padding: 5px;\n  }\n\n  .input-control input:focus,\n  .input-control textarea:focus {\n    background-color: #eee;\n    outline: none;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/new-posts/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-new-post-page\">\n    <section class=\"new-post-form\">\n      <form @submit.prevent=\"onSave\">\n        <AppControlInput v-model=\"editedPost.author\">Author Name</AppControlInput>\n        <AppControlInput v-model=\"editedPost.title\">Title</AppControlInput>\n        <AppControlInput v-model=\"editedPost.thumbnailLink\">Thumbnail Link</AppControlInput>\n        <AppControlInput control-type=\"textarea\" v-model=\"editedPost.content\">Content</AppControlInput>\n        <AppButton type=\"submit\">Save</AppButton>\n        <AppButton type=\"button\" style=\"margin-left: 10px\" btn-style=\"cancel\" @click=\"onCancel\">Cancel</AppButton>\n      </form>\n    </section>\n  </div>\n</template>\n\n<script>\n  import AppControlInput from '@/components/UI/AppControlInput'\n  import AppButton from '@/components/UI/AppButton'\n\n  export default {\n    components: {\n    AppControlInput,\n      AppButton\n    },\n    data() {\n      return {\n        editedPost: {\n          author: '',\n          title: '',\n          thumbnailLink: '',\n          content: ''\n        }\n      }\n    },\n    methods: {\n      onSave() {\n        // Save the post\n        console.log(this.editedPost);\n      },\n      onCancel() {\n        // Navigate back\n        this.$router.push('/admin');\n      }\n    }\n  }\n\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/index.vue"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 4</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-page\">\n    <section class=\"new-post\">\n      <button @click=\"$router.push('/admin/new-post')\">Create Post</button>\n    </section>\n    <section class=\"existing-posts\">\n      <h1>Existing Posts</h1>\n      <PostList />\n    </section>\n  </div>\n</template>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n  export default {\n    components: {PostList}\n  }\n</script>\n\n<style scoped>\n  .admin-page {\n    padding: 20px;\n  }\n\n  .new-post {\n    text-align: center;\n    border-bottom: 2px solid #ccc;\n    padding-bottom: 10px;\n  }\n\n  .existing-posts h1 {\n    text-align: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Preparing the Backend</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Admin/AdminPostForm.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <form @submit.prevent=\"onSave\">\n    <AppControlInput v-model=\"editedPost.author\">Author Name</AppControlInput>\n    <AppControlInput v-model=\"editedPost.title\">Title</AppControlInput>\n    <AppControlInput v-model=\"editedPost.thumbnailLink\">Thumbnail Link</AppControlInput>\n    <AppControlInput control-type=\"textarea\" v-model=\"editedPost.content\">Content</AppControlInput>\n    <AppButton type=\"submit\">Save</AppButton>\n    <AppButton type=\"button\" style=\"margin-left: 10px\" btn-style=\"cancel\" @click=\"onCancel\">Cancel</AppButton>\n  </form>\n</template>\n\n<script>\n  import AppControlInput from '@/components/UI/AppControlInput'\n  import AppButton from '@/components/UI/AppButton'\n\n\n  export default {\n    components: {\n      AppControlInput,\n      AppButton\n    },\n    props: {\n      posts: {\n        type: Object,\n        required: false\n      }\n    },\n    data() {\n      return {\n        editedPost: this.post ? { ... this.post} : {\n          author: '',\n          title: '',\n          thumbnailLink: '',\n          content: ''\n        }\n      };\n    },\n    methods: {\n      onSave() {\n        // Save the post\n        console.log(this.editedPost);\n      },\n      onCancel() {\n        // Navigate back\n        this.$router.push('/admin');\n      }\n    }\n  }\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/new-post/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-new-post-page\">\n    <section class=\"new-post-form\">\n      <AdminPostForm />\n    </section>\n  </div>\n</template>\n\n<script>\nimport AdminPostForm from \"@/components/Admin/AdminPostForm\";\n\nexport default{\n  components: {\n    AdminPostForm\n  }\n};\n</script>\n\n<style scoped>\n  .new-post-form {\n    width: 90%;\n    margin: 20px auto;\n  }\n\n  @media (min-width: 768px) {\n    .new-post-form {\n      width: 500px;\n    }\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "Add admin&nbsp;"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostList.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <section class=\"post-list\">\n    <PostPreview\n      id=\"1\"\n      :is-admin=\"isAdmin\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there!\"\n      previewText = \"This is my first post!\"/>\n    <PostPreview\n      id=\"2\"\n      :is-admin=\"isAdmin\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there 2!\"\n      previewText = \"This is my second post!\"/>\n    <PostPreview\n      id=\"3\"\n      :is-admin=\"isAdmin\"\n      thumbnail=\"http://cryptotimes.org/wp-content/uploads/2018/06/050318_LRR_MEN_WomenTech.jpg\"\n      title=\"Hello there 3!\"\n      previewText = \"This is my third post!\"/>\n  </section>\n</template>\n\n<script>\n  import PostPreview from \"@/components/Posts/PostPreview\";\n  export default {\n    components: {\n      PostPreview\n    },\n    props: {\n      isAdmin: {\n        type: Boolean,\n        default: false\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .post-list {\n    display: flex;\n    padding: 20px;\n    box-sizing: border-box;\n    flex-wrap: wrap;\n    align-items: center;\n    justify-content: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostPreview.vue<br>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <nuxt-link :to=\"'/posts/' + id\">\n    <article class=\"post-preview\">\n      <div\n        class=\"post-thumbnail\"\n        :style=\"{backgroundImage: 'url(' + thumbnail + ')'}\">\n      </div>\n      <div class=\"post-content\">\n        <h1>{{ title }}</h1>\n        <p>{{ previewText }}</p>\n      </div>\n    </article>\n  </nuxt-link>\n</template>\n\n<script>\nexport default {\n    name: 'PostPreview',\n    props: {\n        id: {\n          type: String,\n          required: true\n        },\n        isAdmin: {\n          type: Boolean,\n          required: true\n        },\n        title: {\n          type: String,\n          required: true\n        },\n        previewText: {\n          type: String,\n          required: true\n        },\n        thumbnail: {\n          type: String,\n          required: true\n        }\n    }\n}\n</script>\n\n\n<style scoped>\n.post-thumbnail {\n  width: 100%;\n  height: 200px;\n  background-position: center;\n  background-size: cover;\n}\n\n.post-content {\n  padding: 10px;\n  text-align: center;\n}\n\na:hover .post-content,\na:active .post-content {\n  background-color: #ccc;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-page\">\n    <section class=\"new-post\">\n      <button @click=\"$router.push('/admin/new-post')\">Create Post</button>\n    </section>\n    <section class=\"existing-posts\">\n      <h1>Existing Posts</h1>\n      <PostList isAdmin/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import PostList from \"@/components/Posts/PostList\";\n  export default {\n    components: {PostList}\n  }\n</script>\n\n<style scoped>\n  .admin-page {\n    padding: 20px;\n  }\n\n  .new-post {\n    text-align: center;\n    border-bottom: 2px solid #ccc;\n    padding-bottom: 10px;\n  }\n\n  .existing-posts h1 {\n    text-align: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Posts/PostPreview.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <nuxt-link :to=\"postLink\" class=\"post-preview\">\n    <article>\n      <div\n        class=\"post-thumbnail\"\n        :style=\"{backgroundImage: 'url(' + thumbnail + ')'}\">\n      </div>\n      <div class=\"post-content\">\n        <h1>{{ title }}</h1>\n        <p>{{ previewText }}</p>\n      </div>\n    </article>\n  </nuxt-link>\n</template>\n\n<script>\nexport default {\n    name: 'PostPreview',\n    props: {\n        id: {\n          type: String,\n          required: true\n        },\n        isAdmin: {\n          type: Boolean,\n          required: true\n        },\n        title: {\n          type: String,\n          required: true\n        },\n        previewText: {\n          type: String,\n          required: true\n        },\n        thumbnail: {\n          type: String,\n          required: true\n        }\n    },\n  computed: {\n      postLink() {\n        return this.isAdmin ? '/admin/' + this.id : '/posts/' + this.id\n      }\n  }\n}\n</script>\n\n\n<style scoped>\n.post-thumbnail {\n  width: 100%;\n  height: 200px;\n  background-position: center;\n  background-size: cover;\n}\n\n.post-content {\n  padding: 10px;\n  text-align: center;\n}\n\na:hover .post-content,\na:active .post-content {\n  background-color: #ccc;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Improving the App</h3>"
+    },
+    {
+      "type": "text",
+      "data": "Replace the button tag with AppButton in /components/UI/AppButton for pages/admin/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-page\">\n    <section class=\"new-post\">\n      <AppButton @click=\"$router.push('/admin/new-post')\">Create Post</AppButton>\n    </section>\n    <section class=\"existing-posts\">\n      <h1>Existing Posts</h1>\n      <PostList isAdmin/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import PostList from '@/components/Posts/PostList'\n  import AppButton from '@/components/UI/AppButton'\n  export default {\n    components: {\n      PostList,\n      AppButton\n    }\n  }\n</script>\n\n<style scoped>\n  .admin-page {\n    padding: 20px;\n  }\n\n  .new-post {\n    text-align: center;\n    border-bottom: 2px solid #ccc;\n    padding-bottom: 10px;\n  }\n\n  .existing-posts h1 {\n    text-align: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/admin/auth/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-auth-page\">\n    <div class=\"auth-container\">\n      <form>\n        <AppControlInput type=\"email\">E-Mail Address</AppControlInput>\n        <AppControlInput type=\"password\">Password</AppControlInput>\n        <AppButton type=\"submit\">{{ isLogin ? 'Login' : 'Sign Up'}}</AppButton>\n        <AppButton type=\"button\" btn-style=\"inverted\" style=\"margin-left: 10px\"\n        @click=\"isLogin = !isLogin\">Switch to  {{ isLogin ? 'Signup' : 'Login'}}</AppButton>\n      </form>\n    </div>\n  </div>\n</template>\n\n<script>\n  import AppControlInput from '@/components/UI/AppControlInput'\n  import AppButton from '@/components/UI/AppButton'\n\n  export default {\n    name: 'AdminAuthPage',\n    layout: 'admin',\n    components: {\n      AppControlInput,\n      AppButton\n    },\n    data() {\n      return {\n        isLogin: true\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .admin-auth-page {\n    padding: 20px;\n  }\n\n  .auth-container {\n    border: 1px solid #ccc;\n    border-radius: 5px;\n    box-shadow: 0 2px 2px #ccc;\n    width: 300px;\n    margin: auto;\n    padding: 10px;\n    box-sizing: border-box;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/Components/UI/AppButton.vue&nbsp;"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <button\n    class=\"button\"\n    :class=\"btnStyle\"\n    v-bind=\"$attrs\"\n    v-on=\"$listeners\"><slot /></button>\n</template>\n\n<script>\n  export default {\n    name: 'AppButton',\n    props: {\n      bynStyle: {\n        type: String,\n        default: ''\n      }\n    }\n  }\n</script>\n\n<style scoped>\n  .button {\n    font: inherit;\n    background-color: black;\n    color: white;\n    padding: 5px;\n    cursor: pointer;\n    border: 1px solid black;\n  }\n\n  .button:hover,\n  .button:active {\n    background-color: rgb(51, 51, 51);\n    border: 1px solid black;\n  }\n\n  .inverted {\n    background-color: white;\n    color: black;\n    border: 1px solid transparent;\n  }\n\n  .inverted:hover,\n  .inverted:active {\n    color: #ccc;\n    background-color: white;\n    border: 1px solid transparent;\n  }\n\n  .cancel {\n    background-color: red;\n    color: white;\n    border: 1px solid transparent;\n  }\n\n  .cancel:hover,\n  .cancel:active {\n    background-color: salmon;\n    border: 1px solid transparent;\n    color: white;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding a Separate Layout to the Admin Area</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/admin.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <nuxt />\n  </div>\n</template>\n\n<style>\n  html {\n    front-family: 'Open Sans', sans-serif;\n  }\n\n  body {\n    margin: 0;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "Change for each page under /pages/admin"
+    },
+    {
+      "type": "text",
+      "data": "one as an example to demonstrate how&nbsp;"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "/pages/admin/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div class=\"admin-page\">\n    <section class=\"new-post\">\n      <AppButton @click=\"$router.push('/admin/new-post')\">Create Post</AppButton>\n    </section>\n    <section class=\"existing-posts\">\n      <h1>Existing Posts</h1>\n      <PostList isAdmin/>\n    </section>\n  </div>\n</template>\n\n<script>\n  import PostList from '@/components/Posts/PostList'\n  import AppButton from '@/components/UI/AppButton'\n  export default {\n    layout: 'admin',\n    components: {\n      PostList,\n      AppButton\n    }\n  }\n</script>\n\n<style scoped>\n  .admin-page {\n    padding: 20px;\n  }\n\n  .new-post {\n    text-align: center;\n    border-bottom: 2px solid #ccc;\n    padding-bottom: 10px;\n  }\n\n  .existing-posts h1 {\n    text-align: center;\n  }\n</style>"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}

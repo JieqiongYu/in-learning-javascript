@@ -1,0 +1,259 @@
+{
+  "title": "2 - Pages, Routing & Views ",
+  "cells": [
+    {
+      "type": "text",
+      "data": "From Config To Folders &amp; Files&nbsp;"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/B5B9221E488C6932B82A9C8EC4C0B7D8.png\" alt=\"Screen Shot 2018-12-19 at 14.09.10.png\" width=\"692\" height=\"402\">"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding Links &amp; Navigating Around&nbsp;</h3>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<nuxt-link to=\"/Users\">Users</nuxt-link>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <input text=\"text\" v-model=\"userId\">\n    <button @click=\"onLoadUser\">Load User</button>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        userId: ''\n      }\n    },\n    methods: {\n      onLoadUser() {\n        this.$router.push('/users/' + this.userId);\n      }\n    }\n  }\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Validating Parameters</h3>"
+    },
+    {
+      "type": "text",
+      "data": "validate() method runs before the target page is loading"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<script>\nexport default {\n  validate(data) {\n    console.log('Mer');\n    console.log(data);\n    // return data.params.id === '1'\n    // check if the input is a valid number\n    return /^\\d+$/.test(data.params.id)\n  }\n\n};\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Creating Nested Routes&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/users.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n      <input type=\"text\" v-model=\"userId\">\n      <button @click=\"onLoadUser\">Load User</button>\n      <nuxt-child />\n  </div>\n</template>\n\n<script>\nexport default {\n\n  data() {\n    return {\n      userId: \"\"\n    };\n  },\n  methods: {\n    onLoadUser() {\n      this.$router.push(\"/users/\" + this.userId);\n    }\n  }\n};\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/users/index.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <section class=\"container\">\n    <div>\n      <logo/>\n      <h1 class=\"title\">User page</h1>\n      <h2 class=\"subtitle\">Example for trying the easy to go for routing</h2>\n    </div>\n  </section>\n</template>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Layouts, Pages &amp; Components - Theory&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/029F91AFDF9DB052E403B0D5FC87A018.png\" alt=\"Screen Shot 2018-12-27 at 15.09.37.png\" width=\"751\" height=\"421\">"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding a New Layout&nbsp;</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/users.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n    <header>USER SECTION</header>\n    <nuxt/>\n  </div>\n</template>\n\n<style>\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/pages/users.vue"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>line 22</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <div>\n      <input type=\"text\" v-model=\"userId\">\n      <button @click=\"onLoadUser\">Load User</button>\n      <nuxt-child />\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return {\n      userId: \"\"\n    };\n  },\n  methods: {\n    onLoadUser() {\n      this.$router.push(\"/users/\" + this.userId);\n    }\n  },\n  layout: 'users'\n};\n</script>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Adding a Default Error Page</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/layouts/error.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n    <h1>An error occurred, we're sorry!</h1>\n</template>"
+    },
+    {
+      "type": "text",
+      "data": "Try an invalid url:"
+    },
+    {
+      "type": "code",
+      "language": "sh",
+      "data": "http://localhost:3000/Users/ds"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Working with “Normal” Components</h3>"
+    },
+    {
+      "type": "text",
+      "data": "Components could be used in&nbsp;"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>pages</li><li>layouts</li></ul>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Header.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <header class=\"header\">\n    <ul class=\"nav-items\">\n      <li>\n        <nuxt-link to=\"/\">Home</nuxt-link>\n      </li>\n      <li>\n        <nuxt-link to=\"/users\">Users</nuxt-link>\n      </li>\n    </ul>\n  </header>\n</template>\n\n<style scoped>\n.header {\n  width: 100%;\n  height: 60px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: #ccc;\n}\n\n.nav-items {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 80%;\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "pages/index.vue"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 4</li><li>Line 14</li><li>Line 19</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <section class=\"container\">\n    <div>\n        <Header />\n        <div class=\"links\">\n          <nuxt-link class=\"button--green\" to=\"/Users\">Users</nuxt-link>\n        </div>\n    </div>\n  </section>\n</template>\n\n<script>\nimport Logo from \"~/components/Logo.vue\";\nimport Header from \"~/components/Header.vue\";\n\nexport default {\n  components: {\n    Logo,\n    Header\n  }\n};\n</script>\n\n<style>\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "<h3>Styling Nuxt App</h3>"
+    },
+    {
+      "type": "text",
+      "data": "/components/Header.vue"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "<template>\n  <header class=\"header\">\n    <ul class=\"nav-items\">\n      <li>\n        <nuxt-link to=\"/\">Home</nuxt-link>\n      </li>\n      <li>\n        <nuxt-link to=\"/users\">Users</nuxt-link>\n      </li>\n    </ul>\n  </header>\n</template>\n\n<style scoped>\n.header {\n  width: 100%;\n  height: 60px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: #ccc;\n}\n\n.nav-items {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 80%;\n}\n\n.nav-items a {\n    text-decoration: none;\n    color: green;\n}\n\n.nav-items a:hover,\n.nav-teims a:active {\n    color: red\n}\n</style>"
+    },
+    {
+      "type": "text",
+      "data": "/assets/style/main.css"
+    },
+    {
+      "type": "text",
+      "data": "<ul><li>Line 30</li></ul>"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "html,body {\n    margin: 0;\n}"
+    },
+    {
+      "type": "text",
+      "data": "/nuxt.config.js"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "data": "const pkg = require('./package')\n\nmodule.exports = {\n  mode: 'universal',\n\n  /*\n  ** Headers of the page\n  */\n  head: {\n    title: pkg.name,\n    meta: [\n      { charset: 'utf-8' },\n      { name: 'viewport', content: 'width=device-width, initial-scale=1' },\n      { hid: 'description', name: 'description', content: pkg.description }\n    ],\n    link: [\n      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }\n    ]\n  },\n\n  /*\n  ** Customize the progress-bar color\n  */\n  loading: { color: '#fff' },\n\n  /*\n  ** Global CSS\n  */\n  css: [\n    '~/assets/styles/main.css'\n  ],\n\n  /*\n  ** Plugins to load before mounting the App\n  */\n  plugins: [\n  ],\n\n  /*\n  ** Nuxt.js modules\n  */\n  modules: [\n  ],\n\n  /*\n  ** Build configuration\n  */\n  build: {\n    /*\n    ** You can extend webpack config here\n    */\n    extend(config, ctx) {\n      \n    }\n  }\n}"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}
